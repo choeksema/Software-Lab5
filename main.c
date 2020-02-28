@@ -9,6 +9,7 @@
 #include "stm32l476xx.h"
 #include "SysClock.h"
 #include "GPIO.h"
+#include "lcd.h"
 #include "Servo.h"
 
 
@@ -16,27 +17,32 @@ int
 main(void) {
 	
 	System_Clock_Init();
-	GPIO_CLOCK_ENABLE();
-	GPIO_Init();
-	TIMER_CLOCK_ENABLE();
+	GPIOE_Init();
+	LCDinit();
 	Timer_Init();
 	
-	int i;
-	int brightness = 500;
-	int stepSize = 1;
+	uint32_t count = 0;
+	
+	int brightness = 1;
+	int angle = 1;
 	
 	while(1) {
 		
-		if ((brightness >= 1999) || (brightness <= 0))
-			stepSize = -stepSize;
+		// Read ADC (PA1) for voltage level
+		// Code stuff returning a value for angle
 		
-		brightness = stepSize*5;
+		// Move the servo to "angle"
+		Servo_Update(angle);
 		
-		TIM1->CCR1 = brightness;
+//		if ((brightness >= TIM1->ARR) || (brightness <= 0))
+//			angle = -angle;
+//		
+//		brightness += angle*20;
+//		
+//		TIM1->CCR1 = brightness;
 		
-		for(i = 0; i < 1000; i++);
+		LCDprintf("Greg, Caleb\n%d, duty:%d%%", count++, (((TIM1->CCR1)*100)/(TIM1->ARR)));
+		Delay_ms(100);
 	}
 	
-	// uint32_t count = 0;
-		
 }

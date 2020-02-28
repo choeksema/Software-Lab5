@@ -5,27 +5,47 @@
  * February 2020
  ****************************************************************************/
 
+#include "lcd.h"
 #include "utils.h"
 #include "GPIO.h"
-
+#include "Servo.h"
 
 void GPIO_CLOCK_ENABLE(){
 	
-	// Enable GPIO port E clock
-	SET_BITS(RCC->AHB2ENR, RCC_AHB2ENR_GPIOEEN);
+	// Enable GPIO port B clock
+	RCC->AHB2ENR |= RCC_AHB2ENR_GPIOEEN;
 }
 
-
-void GPIO_Init(void){
+void GPIOE_Init(void){
 	
-	// 00 = Input, 01 = Output, 10 = Alt Fn, 11 = Analogue
-	FORCE_BITS(GPIOE->MODER, 0x3 << (2*8), 0x2 << (2*8));	// Set alternate function
-	FORCE_BITS(GPIOE->AFR[1], 0xF, 0x1);			// Set to alternate function 1 (TIM_CH1N)
+	GPIO_CLOCK_ENABLE();
 	
-	// 00 = Low speed, 01 = Medium, 10 = Fast, 11 = Reserved
-	//FORCE_BITS(GPIOE->OSPEEDR, (0x3 << (2*8)), 0x0);		// Clear bits for low speed
+	// Set pin I/O mode (LCD)
+	GPIOE_PIN_MODE(LCD_D4, MODER_OUT);
+	GPIOE_PIN_MODE(LCD_D5, MODER_OUT);
+	GPIOE_PIN_MODE(LCD_D6, MODER_OUT);
+	GPIOE_PIN_MODE(LCD_D7, MODER_OUT);
 	
-	// 00 = no PUPD, 01 = PU, 10 = PD, 11 = Reserved
-	FORCE_BITS(GPIOE->PUPDR, (0x3 << (2*8)), 0x0);
+	GPIOE_PIN_MODE(LCD_E, MODER_OUT);
+	GPIOE_PIN_MODE(LCD_RS, MODER_OUT);
+	
+	//Set output type (LCD)
+	GPIOE_OP_TYPE(LCD_D4, PUSH_PULL);
+	GPIOE_OP_TYPE(LCD_D5, PUSH_PULL);
+	GPIOE_OP_TYPE(LCD_D6, PUSH_PULL);
+	GPIOE_OP_TYPE(LCD_D7, PUSH_PULL);
+	
+	GPIOE_OP_TYPE(LCD_E, PUSH_PULL);
+	GPIOE_OP_TYPE(LCD_RS, PUSH_PULL);
+	
+	
+	// Set pin I/O mode (Servo)
+	GPIOE_PIN_MODE(SERVO_PIN, MODER_AF);
+	
+	GPIOE->AFR[1] &= ~(0xFUL);
+	GPIOE->AFR[1] |= 1UL;
+	
+	GPIOE_PIN_SPEED(SERVO_PIN, LOW_SPEED);
+	GPIOE_PIN_PULL(SERVO_PIN, PULL_NONE);
 	
 }

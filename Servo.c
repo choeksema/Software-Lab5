@@ -6,45 +6,66 @@
  ****************************************************************************/
 
 #include "utils.h"
+#include "Servo.h"
 
 
 void TIMER_CLOCK_ENABLE(void) {
 	
 	// Set timer 1 clock
-	SET_BITS(RCC->APB2ENR, RCC_APB2ENR_TIM1EN);
+	RCC->APB2ENR |= RCC_APB2ENR_TIM1EN;
 	
 }
 
 void Timer_Init(void) {
 	
-	// Count up: 0, count down: 1
-	CLR_BITS(TIM1->CR1, TIM_CR1_DIR);
+	TIMER_CLOCK_ENABLE();
+	
+	// Count direction
+	COUNT_DIR(TIM1->CR1, COUNT_UP);
 	
 	// Clock Prescale (16 bits - up to 65 535)
-	TIM1->PSC = 39;
+	TIM1->PSC = 39;		//4MHz clock --> clock/(PSC+1) = 100kHz, a convenient #
 	
 	// Auto-reload (also 16b)
-	TIM1->ARR = 2000-1;
+	TIM1->ARR = 2000-1;		//100kHz clock (see above), PWM period = 20ms --> ARR = clock*PWM - 1
 	
-	//Clear ouptut compare mode bits for channel 1
-	FORCE_BITS(TIM1->CCMR1, TIM_CCMR1_OC1M, (TIM_CCMR1_OC1M_1 | TIM_CCMR1_OC1M_2));
+	// Set PWM mode
+	TIM1_MODE(MODE_PWM);
 	
 	// Output 1 preload enable
-	SET_BITS(TIM1->CCMR1, TIM_CCMR1_OC1PE);
+	TIM1_PRELOAD(PRELOAD_ON);
 	
-	// Output polarity: active high = 0, active low = 1
-	CLR_BITS(TIM1->CCER, TIM_CCER_CC1NP);	
+	// Output polarity
+	TIM1_POLAR(ACT_HI);
 	
-	// Enable channel 1 complementary output
-	SET_BITS(TIM1->CR1, TIM_CR1_CEN);
+	// Enable channel 1 complementary output (1 = on, 0 = off)
+	TIM1->CCER |= TIM_CCER_CC1NE;
 	
 	// Main O/P enable: 0 = off, 1 = en
-	SET_BITS(TIM1->BDTR, TIM_BDTR_MOE);
+	OP_ENABLE(OP_ON);
 	
 	// Any value from 0:(ARR-1)
-	TIM1->CCR1 = 500;
+	TIM1->CCR1 = 500;		// CCR1/ARR = duty cycle
 	
 	// Enable timer 1
 	SET_BITS(TIM1->CR1, TIM_CR1_CEN);
+	
+}
+
+
+void Servo_Update(uint16_t angle) {
+	
+	// 0deg = 600 us
+	// 90deg = 1500 us (centre position)
+	// 180deg = 2400 us
+	
+	
+	
+	//		if ((brightness >= TIM1->ARR) || (brightness <= 0))
+//			angle = -angle;
+//		
+//		brightness += angle*20;
+//		
+//		TIM1->CCR1 = brightness;
 	
 }
