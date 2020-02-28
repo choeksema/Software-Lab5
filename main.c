@@ -11,7 +11,18 @@
 #include "GPIO.h"
 #include "Servo.h"
 
+float TimeFromReading(uint16_t reading){
+	return reading * 0.00044 + 0.6;
+}
 
+uint16_t MilVoltsRead(uint16_t reading){
+	
+	return (uint16_t)(3300 / 0xFFF * reading);
+}
+
+int16_t Angle(uint16_t reading){
+	return(int16_t)(180/0xfff * reading -90);
+}
 int
 main(void) {
 	
