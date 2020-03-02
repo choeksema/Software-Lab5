@@ -1,7 +1,7 @@
 /*****************************************************************************
  * Servo.c
  * Contains code to initialize a Servo PWM timer
- * Caleb Hoeksema
+ * Caleb Hoeksema, Gregory Huras
  * February 2020
  ****************************************************************************/
 
