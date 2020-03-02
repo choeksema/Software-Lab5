@@ -1,7 +1,7 @@
 /*****************************************************************************
  * Servo.c
  * Contains function prototypes to initialize a servo
- * Caleb Hoeksema
+ * Caleb Hoeksema, Gregory Huras
  * February 2020
  ****************************************************************************/
  
