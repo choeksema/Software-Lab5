@@ -1,7 +1,7 @@
 /*****************************************************************************
  * main.c
  * Mainline function to run an LCD
- * Caleb Hoeksema
+ * Caleb Hoeksema, Gregory Huras
  * February 2020
  ****************************************************************************/
 
@@ -13,25 +13,31 @@
 #include "Servo.h"
 #include "ADC.h"
 
-
+// initalize the Various clocks and system hardware, perform a while loop that reads teh ADC port constantly and does various conversions
+// to write to values to drive and move the RC Servo. 
 int main(void) {
 	
+	// Initalize teh System Clock
 	System_Clock_Init();
+	// Initalize GPIOE
 	GPIOE_Init();
+	// Initalize the LCD
 	LCDinit();
 	
-	// Servo Stuff
+	// Initalize the Timer for the servo
 	Timer_Init();
 	
-	// Start up ADC
+	// Initalize and setup the ADC
 	ADC_Run();
 	
+	//Declare values used in teh WHile loop
 	uint16_t angle, time, ADCReading, MilVolts;
 	
+	// Loop Forever
 	while(1){
 		
 		// Read ADC (PA1) for voltage level
-		ADCReading = triggerADCConv();  				// 16 bit ADC register value
+		ADCReading = triggerADCConv();  		// 16 bit ADC register value
 		MilVolts = MilVoltsRead(ADCReading);		// Voltage Conversion
 		angle = AngleConversion(ADCReading);		// Angle Conversion
 		
@@ -43,6 +49,5 @@ int main(void) {
 		
 		Delay_ms(100);
 	}
-	
 }
 
