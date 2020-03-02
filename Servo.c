@@ -1,7 +1,7 @@
 /*****************************************************************************
  * Servo.c
  * Contains code to initialize a Servo PWM timer
- * Caleb Hoeksema
+ * Caleb Hoeksema, Gregory Huras
  * February 2020
  ****************************************************************************/
 
@@ -114,7 +114,6 @@ void ADC_CLK(void){
 	
 	while((RCC->CR &= RCC_CR_HSIRDY) == 0){}
 }
-
 
 
 void ADC_init(void){
