@@ -16,6 +16,7 @@ void TIMER_CLOCK_ENABLE(void) {
 	
 }
 
+// Initalize the Timer on PE8
 void Timer_Init(void) {
 	
 	TIMER_CLOCK_ENABLE();
@@ -44,15 +45,13 @@ void Timer_Init(void) {
 	// Main O/P enable: 0 = off, 1 = en
 	OP_ENABLE(OP_ON);
 	
-	// Any value from 0:(ARR-1)
-	//TIM1->CCR1 = 500;		// CCR1/ARR = duty cycle
-	
 	// Enable timer 1
 	SET_BITS(TIM1->CR1, TIM_CR1_CEN);
 	
 }
 
-
+// This function takes the Angle and Time value and then does a conversion and calclation to write the value to the CCR1 Port
+// This will then output to PE8 which drives the Servo
 void Servo_Update(uint16_t angle, uint16_t *time) {
 	
 	// 0deg = 600 us
