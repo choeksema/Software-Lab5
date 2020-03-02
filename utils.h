@@ -1,7 +1,7 @@
 /*****************************************************************************
  * utils.h
  * Header file containing various useful functions
- * Caleb Hoeksema
+ * Caleb Hoeksema, Gregory Huras
  * February 2020
  ****************************************************************************/
  
