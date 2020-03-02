@@ -1,7 +1,7 @@
 /*****************************************************************************
  * GPIO.c
  * Contains code to initialize a GPIO port
- * Caleb Hoeksema
+ * Caleb Hoeksema, Gregory Huras
  * February 2020
  ****************************************************************************/
 
@@ -11,12 +11,14 @@
 #include "Servo.h"
 #include "ADC.h"
 
+// Initalize the GPIO Clocks
 void GPIO_CLOCK_ENABLE(volatile uint32_t port){
 	
 	// Enable GPIO port clock
 	RCC->AHB2ENR |= port;
 }
 
+// Initalize PE8
 void GPIOE_Init(void){
 	
 	GPIO_CLOCK_ENABLE(PORT_E);
@@ -51,7 +53,7 @@ void GPIOE_Init(void){
 	
 }
 
-
+// Initalize Gpio A
 void GPIOA_Init(void) {
 	
 	GPIO_CLOCK_ENABLE(PORT_A);
