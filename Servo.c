@@ -1,7 +1,7 @@
 /*****************************************************************************
  * Servo.c
  * Contains code to initialize a Servo PWM timer
- * Caleb Hoeksema
+ * Caleb Hoeksema, Gregory Huras
  * February 2020
  ****************************************************************************/
 
@@ -16,6 +16,7 @@ void TIMER_CLOCK_ENABLE(void) {
 	
 }
 
+// Initalize the Timer on PE8
 void Timer_Init(void) {
 	
 	TIMER_CLOCK_ENABLE();
@@ -24,10 +25,10 @@ void Timer_Init(void) {
 	COUNT_DIR(TIM1->CR1, COUNT_UP);
 	
 	// Clock Prescale (16 bits - up to 65 535)
-	TIM1->PSC = 39;		//4MHz clock --> clock/(PSC+1) = 100kHz, a convenient #
+	TIM1->PSC = 79;					//80MHz clock --> clock/(PSC+1) = 1MHz, matches useconds
 	
 	// Auto-reload (also 16b)
-	TIM1->ARR = 2000-1;		//100kHz clock (see above), PWM period = 20ms --> ARR = clock*PWM - 1
+	TIM1->ARR = 20000-1;		//1MHz clock (see above), PWM period = 20ms --> ARR = clock*PWM - 1
 	
 	// Set PWM mode
 	TIM1_MODE(MODE_PWM);
@@ -44,16 +45,14 @@ void Timer_Init(void) {
 	// Main O/P enable: 0 = off, 1 = en
 	OP_ENABLE(OP_ON);
 	
-	// Any value from 0:(ARR-1)
-	//TIM1->CCR1 = 500;		// CCR1/ARR = duty cycle
-	
 	// Enable timer 1
 	SET_BITS(TIM1->CR1, TIM_CR1_CEN);
 	
 }
 
-
-void Servo_Update(uint16_t angle, uint16_t* test, uint16_t *time) {
+// This function takes the Angle and Time value and then does a conversion and calclation to write the value to the CCR1 Port
+// This will then output to PE8 which drives the Servo
+void Servo_Update(uint16_t angle, uint16_t *time) {
 	
 	// 0deg = 600 us
 	// 90deg = 1500 us (centre position)
@@ -61,16 +60,12 @@ void Servo_Update(uint16_t angle, uint16_t* test, uint16_t *time) {
 	// slope of angle/10, offset of 600
 	
 	uint16_t pulse_min = 600;
-	uint16_t pulse_max = 2400;
-	uint16_t range = pulse_max - pulse_min;
 	uint16_t pulse;
 	
 	pulse = (angle * 10) + pulse_min;				// Based on linear equation calculations
 	*time = pulse;
 	
-	*test= ((TIM1->ARR * pulse) - (666 * range)) / range;		// Based on linear equation calculations (666 from linear eqn)
-	
-	TIM1->CCR1 = *test;
+	TIM1->CCR1 = pulse;
 	
 }
 

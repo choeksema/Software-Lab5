@@ -1,7 +1,7 @@
 /*****************************************************************************
  * ADC.h
  * Contains function prototypes to use an ADC
- * Caleb Hoeksema
+ * Caleb Hoeksema, Gregory Huras
  * February 2020
  ****************************************************************************/
  
