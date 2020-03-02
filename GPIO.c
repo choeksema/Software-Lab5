@@ -1,7 +1,7 @@
 /*****************************************************************************
  * GPIO.c
  * Contains code to initialize a GPIO port
- * Caleb Hoeksema
+ * Caleb Hoeksema, Gregory Huras
  * February 2020
  ****************************************************************************/
 
