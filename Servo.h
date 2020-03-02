@@ -45,7 +45,7 @@
 // Timer function prototypes
 void TIMER_CLOCK_ENABLE(void);
 void Timer_Init(void);
-void Servo_Update(uint16_t angle, uint16_t* test, uint16_t *time);
+void Servo_Update(uint16_t angle, uint16_t *time);
 
 
 

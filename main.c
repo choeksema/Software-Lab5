@@ -26,10 +26,7 @@ int main(void) {
 	// Start up ADC
 	ADC_Run();
 	
-	uint16_t angle;
-	//uint16_t test;
-	//uint16_t time;
-	uint16_t ADCReading, MilVolts;
+	uint16_t angle, time, ADCReading, MilVolts;
 	
 	while(1){
 		
@@ -38,13 +35,12 @@ int main(void) {
 		MilVolts = MilVoltsRead(ADCReading);		// Voltage Conversion
 		angle = AngleConversion(ADCReading);		// Angle Conversion
 		
-		//Print the following Values to the LCD
-		LCDprintf("ADC:%d, V:%d\nA:%d", ADCReading, MilVolts, angle);
-		
 		// Move the servo to "angle"
-		//Servo_Update(angle, &test, &time);
+		Servo_Update(angle, &time);
 		
-		//LCDprintf("time=%ld  duty:\nCCR1=%ld,  %d%%", time, (TIM1->CCR1), (((TIM1->CCR1)*100)/(TIM1->ARR)));
+		//Print the following Values to the LCD
+		LCDprintf("ADC:%d, mV:%d\nAng:%d", ADCReading, MilVolts, angle - 90);
+		
 		Delay_ms(100);
 	}
 	
