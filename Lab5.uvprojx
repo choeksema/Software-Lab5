@@ -49,10 +49,10 @@
             <InvalidFlash>1</InvalidFlash>
           </TargetStatus>
           <OutputDirectory>.\Objects\</OutputDirectory>
-          <OutputName>Lab5</OutputName>
+          <OutputName>Lab4</OutputName>
           <CreateExecutable>1</CreateExecutable>
           <CreateLib>0</CreateLib>
-          <CreateHexFile>0</CreateHexFile>
+          <CreateHexFile>1</CreateHexFile>
           <DebugInformation>1</DebugInformation>
           <BrowseInformation>1</BrowseInformation>
           <ListingPath>.\Listings\</ListingPath>
@@ -173,7 +173,7 @@
             <AdsLven>1</AdsLven>
             <AdsLsxf>1</AdsLsxf>
             <RvctClst>0</RvctClst>
-            <GenPPlst>0</GenPPlst>
+            <GenPPlst>1</GenPPlst>
             <AdsCpuType>"Cortex-M4"</AdsCpuType>
             <RvctDeviceName></RvctDeviceName>
             <mOS>0</mOS>
@@ -383,19 +383,29 @@
           <GroupName>Source Group 1</GroupName>
           <Files>
             <File>
-              <FileName>GPIO.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\GPIO.c</FilePath>
+              <FileName>utils.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\utils.h</FilePath>
             </File>
             <File>
-              <FileName>GPIO.h</FileName>
+              <FileName>lcd.h</FileName>
               <FileType>5</FileType>
-              <FilePath>.\GPIO.h</FilePath>
+              <FilePath>.\lcd.h</FilePath>
+            </File>
+            <File>
+              <FileName>lcd.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\lcd.c</FilePath>
             </File>
             <File>
               <FileName>main.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\main.c</FilePath>
+            </File>
+            <File>
+              <FileName>GPIO.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\GPIO.c</FilePath>
             </File>
             <File>
               <FileName>startup_stm32l476xx.s</FileName>
@@ -418,9 +428,9 @@
               <FilePath>.\SysClock.h</FilePath>
             </File>
             <File>
-              <FileName>utils.h</FileName>
+              <FileName>GPIO.h</FileName>
               <FileType>5</FileType>
-              <FilePath>.\utils.h</FilePath>
+              <FilePath>.\GPIO.h</FilePath>
             </File>
             <File>
               <FileName>Servo.c</FileName>
@@ -431,6 +441,16 @@
               <FileName>Servo.h</FileName>
               <FileType>5</FileType>
               <FilePath>.\Servo.h</FilePath>
+            </File>
+            <File>
+              <FileName>ADC.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\ADC.c</FilePath>
+            </File>
+            <File>
+              <FileName>ADC.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\ADC.h</FilePath>
             </File>
           </Files>
         </Group>

@@ -45,14 +45,9 @@
 // Timer function prototypes
 void TIMER_CLOCK_ENABLE(void);
 void Timer_Init(void);
-void Servo_Update(uint16_t angle);
+void Servo_Update(uint16_t angle, uint16_t* test, uint16_t *time);
 
-//ADC Function Prototypes 
-void ADC1_Wakeup(void);
-uint16_t triggerADCConv(void);
-void PA1_AnalogConfig(void);
-void ADC_init(void);
-void ADC_CLK(void);
 
 
 #endif
+

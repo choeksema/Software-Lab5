@@ -11,84 +11,42 @@
 #include "GPIO.h"
 #include "lcd.h"
 #include "Servo.h"
+#include "ADC.h"
 
-float TimeFromReading(uint16_t reading){
-	
-	return reading * 0.00044 + 0.6;
-}
-
-uint16_t MilVoltsRead(uint16_t reading){
-	
-	return (uint16_t)(3300 * reading / 0xFFF);
-}
-
-// 180/OxFFF - This will 
-uint16_t AngleConversion(uint16_t reading){
-	
-	return(int16_t)(180 * reading / 0xFFF);
-}
 
 int main(void) {
-
-
-
 	
 	System_Clock_Init();
-	// Initalize the GPIO
-	GPIO_CLOCK_ENABLE();
 	GPIOE_Init();
-	
-	// LCD Init
 	LCDinit();
 	
-	// Intialize the Timer
-	TIMER_CLOCK_ENABLE();
+	// Servo Stuff
 	Timer_Init();
 	
-	// Initalize the ADC
-	ADC_CLK();
-	ADC_init();
+	// Start up ADC
+	ADC_Run();
 	
+	uint16_t angle;
+	//uint16_t test;
+	//uint16_t time;
+	uint16_t ADCReading, MilVolts;
 	
-	
-	
-	/*
-	int i;
-	int brightness = 500;
-	int stepSize = 1;
-	
-	while(1) {
-		
-		if ((brightness >= 1999) || (brightness <= 0))
-			stepSize = -stepSize;
-		
-		brightness = stepSize*5;
-		
-		TIM1->CCR1 = brightness;
-		
-		for(i = 0; i < 1000; i++);
-	}
-	
-	// uint32_t count = 0;
-	*/
-	
-	
-	uint16_t ADCReading, MilVolts, Angle;
 	while(1){
 		
-		//ADCvalue is the 16 bit value outputed from the ADC register
-		ADCReading = triggerADCConv();
-		
-		
-		// Convertes the ADC value (0 - 0xFFF) to a voltage
-		MilVolts = MilVoltsRead(ADCReading);
-		
-		// Converts the ADC Value into an Angle
-		Angle = AngleConversion(ADCReading);
+		// Read ADC (PA1) for voltage level
+		ADCReading = triggerADCConv();  				// 16 bit ADC register value
+		MilVolts = MilVoltsRead(ADCReading);		// Voltage Conversion
+		angle = AngleConversion(ADCReading);		// Angle Conversion
 		
 		//Print the following Values to the LCD
-		LCDprintf("ADC:%d, V:%d, A:%d",ADCReading, MilVolts, Angle);
+		LCDprintf("ADC:%d, V:%d\nA:%d", ADCReading, MilVolts, angle);
+		
+		// Move the servo to "angle"
+		//Servo_Update(angle, &test, &time);
+		
+		//LCDprintf("time=%ld  duty:\nCCR1=%ld,  %d%%", time, (TIM1->CCR1), (((TIM1->CCR1)*100)/(TIM1->ARR)));
 		Delay_ms(100);
 	}
-		
+	
 }
+
